@@ -8,6 +8,7 @@ var randomColor = () => `#${Math.floor(Math.random()*16777215).toString(16)}`;
 
 function App() {
   const [textVal, setTextVal] = React.useState('');
+  const [count, setCount] = React.useState(0);
 
   const segments = React.useMemo(() => {
     if (textVal == '') {
@@ -21,6 +22,35 @@ function App() {
     segments.forEach(sg => colors.push(randomColor()))
     return colors;
   }, [segments])
+
+  const winningSegments = React.useMemo(() => {
+    const arr = [];
+    for (let sg of segments) {
+      let slug = slugify(sg, {
+        replacement: '-',  
+        remove: undefined,
+        lower: true,     
+        strict: false,    
+        locale: 'vi',      
+        trim: true       
+      })
+
+      if (slug.includes('quynh')|| slug.includes('quyenh')) {
+        arr.push(...(new Array(60).fill(sg)))
+      } else {
+        console.log(segments.length);
+        const a = Math.round(40/(segments.length))
+        console.log(a)
+        arr.push(...(new Array(a).fill(sg)))
+      }
+    }
+
+    arr.sort(function () {
+      return Math.random() - 0.5;
+    });
+    console.log(arr);
+    return arr;    
+  },[segments])
 
   const winningSegment = React.useMemo(() => {
     for (let sg of segments) {
@@ -37,24 +67,27 @@ function App() {
         return sg
       }
     }
+    
     return ''    
-  },[segments])
+  },[segments, count])
 
-  console.log(winningSegment)
+  console.log(count)
 
 
   const onFinished = (winner) => {
-    console.log(winner)
+    console.log(winningSegments[count]);
+    console.log({winner})
+    setCount(preCount => preCount+1);
   }
 
   return (
-    <div className='container'>
+    <div className='container' >
       <div className='wheel'>
         <WheelComponent
           key={textVal}
           segments={segments}
           segColors={segColors}
-          winningSegment={winningSegment}
+          winningSegment={winningSegments[count]}
           primaryColor='black'
           contrastColor='white'
           buttonText='Spin'
