@@ -61,7 +61,7 @@ function App() {
           isOnlyOnce={false}
           size={290}
           onFinished={(winner) => onFinished(winner)}
-          upDuration={500}
+          upDuration={100}
           downDuration={1000}
           fontFamily='Arial'
         />
