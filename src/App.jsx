@@ -27,7 +27,7 @@ function App() {
       let slug = slugify(sg, {
         replacement: '-',  
         remove: undefined,
-        lower: false,     
+        lower: true,     
         strict: false,    
         locale: 'vi',      
         trim: true       
@@ -61,7 +61,7 @@ function App() {
           isOnlyOnce={false}
           size={290}
           onFinished={(winner) => onFinished(winner)}
-          upDuration={100}
+          upDuration={500}
           downDuration={1000}
           fontFamily='Arial'
         />
